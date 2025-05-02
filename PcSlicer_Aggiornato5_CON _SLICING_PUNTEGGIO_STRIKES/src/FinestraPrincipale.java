@@ -13,6 +13,7 @@ public class FinestraPrincipale extends javax.swing.JFrame {
      * Creates new form FinestraPrincipale
      */
     public FinestraPrincipale() {
+        
         initComponents();
     }
 
@@ -58,7 +59,8 @@ public class FinestraPrincipale extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        Gioco gioco = new Gioco();
+        Gioco g = new Gioco();
+        FinestraDiGioco f = new FinestraDiGioco(g);
         
         
     }//GEN-LAST:event_jButton1ActionPerformed

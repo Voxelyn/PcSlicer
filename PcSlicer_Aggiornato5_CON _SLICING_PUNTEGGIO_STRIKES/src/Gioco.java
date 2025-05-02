@@ -10,7 +10,7 @@ import javax.swing.*;
  *
  * @author singh.anshmeet
  */
-public class Gioco extends JFrame implements ActionListener, MouseListener, MouseMotionListener{
+public class Gioco extends JPanel implements ActionListener, MouseListener, MouseMotionListener{
     public ArrayList <Componente> componenti = new ArrayList<Componente>();
     public ArrayList <Point> punti = new ArrayList<Point>(); //punti Tracciati
     public Timer timer;
@@ -19,18 +19,16 @@ public class Gioco extends JFrame implements ActionListener, MouseListener, Mous
     public int cont = 0;
     public boolean gameOver = false;
     public int strike = 0;
-    
+
     
     
     public Gioco(){
-        this.setSize(800, 600);
-        this.setBackground(Color.black);
-        this.setVisible(true);
-        this.setLayout(null);
-        this.setLocationRelativeTo(null);
-        this.setTitle("PcSlicer.exe");
-        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+
+        Dimension d = new Dimension(800,600);
+        this.setPreferredSize(d);
         
+        this.setVisible(true);
+        this.setDoubleBuffered(true); // lag meno
         titolo = new JLabel("Score: ");
         titolo.setBounds(30, 30, 50, 50);
         
@@ -80,7 +78,7 @@ public class Gioco extends JFrame implements ActionListener, MouseListener, Mous
                     repaint();
                     if(strike >= 3){
                         JOptionPane.showMessageDialog(this, "3 STRIKE !!! GAME OVER!!!", "ATTENZIONE", JOptionPane.WARNING_MESSAGE);
-                        this.dispose();
+                        //f.dispose();
                         timer.stop();                        
                     }
                 }
@@ -240,8 +238,9 @@ public class Gioco extends JFrame implements ActionListener, MouseListener, Mous
                         cont++;
                         if(x.bomba()){
                             gameOver = true;
+                            //f.dispose();
                             JOptionPane.showMessageDialog(this, "GAME OVER!!!", "ATTENZIONE", JOptionPane.WARNING_MESSAGE);
-                            this.dispose();
+                            
                         }
                     }
                 }
