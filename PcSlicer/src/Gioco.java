@@ -22,6 +22,7 @@ import javax.swing.*;
 public class Gioco extends JPanel implements ActionListener, MouseListener, MouseMotionListener{
     public ArrayList <Componente> componenti = new ArrayList<Componente>();
     public ArrayList <Point> punti = new ArrayList<Point>(); //punti Tracciati
+    public static ArrayList<Integer> punteggi= new ArrayList<Integer>();
     public Timer timer;
     public JLabel titolo;
     public JTextArea punteggio;
@@ -86,6 +87,7 @@ public class Gioco extends JPanel implements ActionListener, MouseListener, Mous
                     strike++;
                     repaint();
                     if(strike >= 3){
+                        FinestraPrincipale.giocaTagliato =false;
                         JOptionPane.showMessageDialog(this, "3 STRIKE !!! GAME OVER!!!", "ATTENZIONE", JOptionPane.WARNING_MESSAGE);
                         //f.dispose();
                         timer.stop();                        
@@ -244,9 +246,10 @@ public class Gioco extends JPanel implements ActionListener, MouseListener, Mous
                 if(!x.getTagliato()){
                     if(collisioni(x, punti)){
                         x.setTagliato(true);
-                        cont++;
+                        cont++; //punti 
                         if(x.bomba()){
                             gameOver = true;
+                            punteggi.add(cont);
                             //f.dispose();
                             JOptionPane.showMessageDialog(this, "GAME OVER!!!", "ATTENZIONE", JOptionPane.WARNING_MESSAGE);
                             

@@ -11,7 +11,7 @@ public class FinestraPrincipale extends javax.swing.JFrame implements MouseListe
     public ArrayList<Point> punti = new ArrayList<Point>(); // punti tracciati
     public boolean cancella = false;
     private Image sfondoImage;
-    private boolean giocaTagliato = false;
+    public static boolean giocaTagliato = false;
 
     public FinestraPrincipale() {
         initComponents();
@@ -40,7 +40,13 @@ public class FinestraPrincipale extends javax.swing.JFrame implements MouseListe
 
         // Aggiungi label "gioca"
         gioca.setIcon(new ImageIcon("GIOCA.png"));
+        opzioni.setIcon(new ImageIcon("OPZIONI.png"));
+        record.setIcon(new ImageIcon("RECORD.png"));
+        esci.setIcon(new ImageIcon("ESCI.png"));
         panel.add(gioca);
+        panel.add(opzioni);
+        panel.add(record);
+        panel.add(esci);
 
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
@@ -67,22 +73,46 @@ public class FinestraPrincipale extends javax.swing.JFrame implements MouseListe
             return false;
         }
         
-        int cX = gioca.getX() + gioca.getWidth() / 2;
-        int cY = gioca.getY() + gioca.getHeight() / 2;
-        int raggio = Math.max(gioca.getWidth(), gioca.getHeight()) / 2;
+        //BOTTONE GIOCA
+        int gX = gioca.getX() + gioca.getWidth() / 2;
+        int gY = gioca.getY() + gioca.getHeight() / 2;
+        
+        //BOTTONE ESCI
+        int eX = esci.getX() + esci.getWidth() / 2;
+        int eY = esci.getY() + esci.getHeight() / 2;
+        
+        //BOTTONE RECORD
+        int rX = record.getX() + record.getWidth() / 2;
+        int rY = record.getY() + record.getHeight() / 2;
+        
+        
+        int areaGioca= Math.max(gioca.getWidth(), gioca.getHeight()) / 2;
+        int areaEsci=Math.max(esci.getWidth(), esci.getHeight()) / 2;
+        int areaRecord = Math.max(esci.getWidth(), esci.getHeight()) / 2;
         
         for(int i=0; i<punti.size()-1; i++){
             Point p1 = punti.get(i);
             Point p2 = punti.get(i+1);
             
-            double distance = distanza(cX, cY, p1,p2);
-            if(distance <= raggio){
+            double distanzaGioca = distanza(gX, gY, p1, p2);
+            double distanzaEsci = distanza(eX, eY, p1, p2);
+            double distanzaRecord= distanza(rX, rY, p1, p2);
+            
+            if(distanzaGioca <= areaGioca){
                 giocaTagliato = true;
                 Gioco g = new Gioco();
                 FinestraDiGioco f = new FinestraDiGioco(g);
                 System.out.println("TAGLIATO SEEEEEE");
                 
                 break;
+            }else if(distanzaEsci <= areaEsci){
+                int risp = JOptionPane.showConfirmDialog(this, "Sei sicuro di voler uscire dal giooco?", "ATTENZIONE", JOptionPane.WARNING_MESSAGE);
+                if(risp == JOptionPane.OK_OPTION)
+                    System.exit(0);   
+            }
+            
+            else if(distanzaRecord <= areaRecord){
+                FinestraGraficoRecord f= new FinestraGraficoRecord();
             }
         }
         return false;
@@ -117,11 +147,20 @@ public class FinestraPrincipale extends javax.swing.JFrame implements MouseListe
     private void initComponents() {
 
         gioca = new javax.swing.JLabel();
+        opzioni = new javax.swing.JLabel();
+        record = new javax.swing.JLabel();
+        esci = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImages(null);
 
         gioca.setBackground(new java.awt.Color(0, 255, 255));
+
+        opzioni.setBackground(new java.awt.Color(0, 255, 255));
+
+        record.setBackground(new java.awt.Color(0, 255, 255));
+
+        esci.setBackground(new java.awt.Color(0, 255, 255));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -129,15 +168,25 @@ public class FinestraPrincipale extends javax.swing.JFrame implements MouseListe
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(86, 86, 86)
-                .addComponent(gioca, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(523, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(esci, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(gioca, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(record, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(opzioni, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(467, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(179, 179, 179)
+                .addGap(146, 146, 146)
                 .addComponent(gioca, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(466, Short.MAX_VALUE))
+                .addGap(80, 80, 80)
+                .addComponent(opzioni, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(84, 84, 84)
+                .addComponent(record, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66)
+                .addComponent(esci, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(89, Short.MAX_VALUE))
         );
 
         pack();
@@ -175,7 +224,10 @@ public class FinestraPrincipale extends javax.swing.JFrame implements MouseListe
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel esci;
     private javax.swing.JLabel gioca;
+    private javax.swing.JLabel opzioni;
+    private javax.swing.JLabel record;
     // End of variables declaration//GEN-END:variables
 
     @Override
